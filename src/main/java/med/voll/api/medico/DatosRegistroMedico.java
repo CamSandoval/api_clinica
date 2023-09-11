@@ -23,4 +23,6 @@ public record DatosRegistroMedico (
         Especialidad especialidad,
         @NotNull
         @Valid
-        DatosDireccion direccion){}
+        DatosDireccion direccion
+){}
+

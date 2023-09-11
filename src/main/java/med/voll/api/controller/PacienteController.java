@@ -2,14 +2,13 @@ package med.voll.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.voll.api.paciente.DatosRegistroPaciente;
-import med.voll.api.paciente.Paciente;
-import med.voll.api.paciente.PacienteRepository;
+import med.voll.api.paciente.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -19,9 +18,29 @@ public class PacienteController {
 
     @PostMapping("/registrar")
     @Transactional
-    public void registrarPaciente(@Valid @RequestBody DatosRegistroPaciente datosPaciente){
-        pacienteRepository.save(new Paciente(datosPaciente));
+    public ResponseEntity<Paciente> registrarPaciente(@Valid @RequestBody DatosRegistroPaciente datosPaciente){
+        Paciente paciente = pacienteRepository.save(new Paciente(datosPaciente));
+        return new ResponseEntity<>(paciente,HttpStatus.OK);
+    }
 
+    @GetMapping("/all")
+    public ResponseEntity<Page<DatosListadoPaciente>> listadoPacientes(Pageable pageable){
+        Page<DatosListadoPaciente> pacientes = pacienteRepository.findByActivoTrue(pageable).map(DatosListadoPaciente::new);
+        return new ResponseEntity<>(pacientes, HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    @Transactional
+    public void actualizarPaciente(@RequestBody @Valid DatosActualizarPaciente datosActualizarPaciente){
+        Paciente paciente = pacienteRepository.getReferenceById(datosActualizarPaciente.id());
+        paciente.actualizarDatos(datosActualizarPaciente);
+    }
+
+    @DeleteMapping("/delete{id}")
+    @Transactional
+    public void eliminarPaciente(@PathVariable Long id){
+        Paciente paciente = pacienteRepository.getReferenceById(id);
+        paciente.desactivarPaciente(paciente);
     }
 
 }
