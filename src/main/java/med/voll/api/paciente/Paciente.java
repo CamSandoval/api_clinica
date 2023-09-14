@@ -44,6 +44,9 @@ public class Paciente {
         if (datos.telefono() != null) {
             this.telefono = datos.telefono();
         }
+        if (datos.documentoIdentidad() != null) {
+            this.documentoIdentidad = datos.documentoIdentidad();
+        }
         if (datos.direccion() != null) {
             direccion.actualizarDatos(datos.direccion());
         }
@@ -52,5 +55,15 @@ public class Paciente {
 
     public void desactivarPaciente(Paciente paciente) {
         this.activo = false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{" +
+                "\"id\" : \"%s\"" +
+                "\"nombre\" : \"%s\"" +
+                "\"email\" : \"%s\"" +
+                "\"documento\" : \"%s\"" +
+                "}",this.id,this.nombre,this.email,this.documentoIdentidad);
     }
 }

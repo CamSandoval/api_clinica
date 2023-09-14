@@ -31,16 +31,18 @@ public class PacienteController {
 
     @PutMapping("/update")
     @Transactional
-    public void actualizarPaciente(@RequestBody @Valid DatosActualizarPaciente datosActualizarPaciente){
+    public ResponseEntity<String> actualizarPaciente(@RequestBody @Valid DatosActualizarPaciente datosActualizarPaciente){
         Paciente paciente = pacienteRepository.getReferenceById(datosActualizarPaciente.id());
         paciente.actualizarDatos(datosActualizarPaciente);
+        return ResponseEntity.ok().body(paciente.toString());
     }
 
     @DeleteMapping("/delete{id}")
     @Transactional
-    public void eliminarPaciente(@PathVariable Long id){
+    public ResponseEntity eliminarPaciente(@PathVariable Long id){
         Paciente paciente = pacienteRepository.getReferenceById(id);
         paciente.desactivarPaciente(paciente);
+        return ResponseEntity.noContent().build();
     }
 
 }
