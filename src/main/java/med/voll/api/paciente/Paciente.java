@@ -20,8 +20,7 @@ public class Paciente {
 
     private String nombre;
     private String email;
-    @Column(name = "documento")
-    private String documentoIdentidad;
+    private String documento;
     private String telefono;
 
     @Embedded
@@ -33,8 +32,9 @@ public class Paciente {
         this.nombre = datos.nombre();
         this.email = datos.email();
         this.telefono = datos.telefono();
-        this.documentoIdentidad = datos.documento();
+        this.documento = datos.documento();
         this.direccion = new Direccion(datos.direccion());
+        this.activo= true;
     }
 
     public Paciente actualizarDatos(DatosActualizarPaciente datos) {
@@ -44,8 +44,8 @@ public class Paciente {
         if (datos.telefono() != null) {
             this.telefono = datos.telefono();
         }
-        if (datos.documentoIdentidad() != null) {
-            this.documentoIdentidad = datos.documentoIdentidad();
+        if (datos.documento() != null) {
+            this.documento = datos.documento();
         }
         if (datos.direccion() != null) {
             direccion.actualizarDatos(datos.direccion());
@@ -60,10 +60,10 @@ public class Paciente {
     @Override
     public String toString() {
         return String.format("{" +
-                "\"id\" : \"%s\"" +
-                "\"nombre\" : \"%s\"" +
-                "\"email\" : \"%s\"" +
+                "\"id\" : \"%s\"," +
+                "\"nombre\" : \"%s\"," +
+                "\"email\" : \"%s\"," +
                 "\"documento\" : \"%s\"" +
-                "}",this.id,this.nombre,this.email,this.documentoIdentidad);
+                "}",this.id,this.nombre,this.email,this.documento);
     }
 }
