@@ -50,4 +50,10 @@ public class PacienteController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListadoPaciente> obtenerPaciente(@PathVariable Long id){
+        DatosListadoPaciente datosPaciente = new DatosListadoPaciente(pacienteRepository.getReferenceById(id));
+        return ResponseEntity.ok(datosPaciente);
+    }
+
 }

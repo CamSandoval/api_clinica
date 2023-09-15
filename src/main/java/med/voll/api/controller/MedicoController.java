@@ -44,13 +44,14 @@ public class MedicoController {
 
     @DeleteMapping("/delete{id}")
     @Transactional
-    /*public void eliminarMedico(@PathVariable Long id){
-        Medico medico = medicoRepository.getReferenceById(id);
-        medicoRepository.delete(medico);
-    }*/
     public ResponseEntity eliminarMedico(@PathVariable Long id) {
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosListadoMedico> obtenerMedico(@PathVariable Long id){
+        Medico medico = medicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DatosListadoMedico(medico));
     }
 }
