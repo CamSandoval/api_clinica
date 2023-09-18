@@ -19,7 +19,7 @@ public record DatosRegistroMedico (
         @NotBlank
         @Pattern(regexp = "\\d{4,6}")
         String documento,
-        @NotNull
+        @NotNull(message = "La especialidad es obligatoria y debe estar diligenciada en mayusculas")
         Especialidad especialidad,
         @NotNull
         @Valid
