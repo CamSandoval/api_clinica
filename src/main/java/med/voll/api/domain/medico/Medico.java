@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.domain.direccion.Direccion;
 
-@Entity
+@Entity(name = "Medico")
 @Table(name = "medicos")
 //funcionalidades de lombok
     //Genera en tiempo de compilacion todos los getters
