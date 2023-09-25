@@ -31,5 +31,10 @@ public class Consulta {
     private Paciente paciente;
 
     private LocalDateTime data;
+    private Boolean activa = true;
 
+
+    public void cancelar() {
+        this.activa=false;
+    }
 }
