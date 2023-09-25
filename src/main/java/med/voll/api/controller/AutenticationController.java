@@ -1,5 +1,10 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import med.voll.api.domain.usuarios.DatosAutenticacionUsuario;
 import med.voll.api.domain.usuarios.Usuario;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
+@Tag(name = "Autenticación")
 public class AutenticationController {
 
     @Autowired
@@ -24,7 +30,22 @@ public class AutenticationController {
 
     @Autowired
     private TokenService tokenService;
+
+    /**
+     * Autentica un usuario y devuelve un token JWT.
+     *
+     * @param datosAutenticacionUsuario Los datos de autenticación del usuario.
+     * @return ResponseEntity con DatosJWTToken que contiene el token JWT.
+     */
     @PostMapping("/user")
+    @Operation(
+            summary = "Autenticar un usuario",
+            description = "Autentica a un usuario utilizando las credenciales proporcionadas."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario autenticado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta (Datos inválidos)")
+    })
     public ResponseEntity<DatosJWTToken> autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
         Authentication authtoken= new UsernamePasswordAuthenticationToken(datosAutenticacionUsuario.login(),datosAutenticacionUsuario.clave());
         var usuarioAutenticado = authenticationManager.authenticate(authtoken);
